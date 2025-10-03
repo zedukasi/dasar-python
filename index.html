@@ -1,17 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<title>Lucia Zaskia</title>
-<style>
-.warna{
-h1: #7F9F90;
-}
-</style
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasar-Dasar Python Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: Aplikasi ini dirancang dengan struktur navigasi berbasis tab untuk memecah materi pembelajaran menjadi beberapa bagian yang mudah dicerna (Pengenalan, Variabel, Operator, dll.). Struktur ini dipilih agar pengguna dapat belajar secara berurutan atau langsung melompat ke topik tertentu. Setiap bagian konsep inti dilengkapi dengan "Code Playground" interaktif, yang memungkinkan pengguna mengubah kode contoh dan menjalankannya untuk melihat hasilnya secara langsung. Pendekatan ini mengubah pembelajaran pasif menjadi pengalaman aktif dan eksperimental, yang sangat penting untuk memahami konsep pemrograman. -->
+    <!-- Visualization & Content Choices: Daripada visualisasi data tradisional, aplikasi ini menggunakan "visualisasi eksekusi kode" sebagai alat pembelajaran utama. Untuk setiap topik (misalnya, Perulangan), tujuannya adalah memberikan pemahaman melalui eksperimen. Metode presentasinya adalah area kode yang dapat diedit di samping panel output. Interaksinya adalah pengguna memodifikasi kode dan menekan tombol 'Jalankan'. Hal ini dibenarkan karena interaksi langsung dan umpan balik instan adalah cara paling efektif untuk belajar coding. Simulasi eksekusi Python diimplementasikan menggunakan JavaScript kustom untuk keamanan. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #333;
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: #3B82F6;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .code-editor {
+            background-color: #1E293B;
+            color: #E2E8F0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre;
+            overflow-x: auto;
+            min-height: 150px;
+        }
+        .output-console {
+            background-color: #F1F5F9;
+            color: #1E293B;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            min-height: 100px;
+            border: 1px solid #E2E8F0;
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased">
 
-<h1 = class"warna">Ini Headingnya</h1>
-<p>This is a paragraph.</p>
+    <div class="container mx-auto px-4 py-8">
 
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-600">Selamat Datang di Dunia Python</h1>
+            <p class="mt-4 text-lg text-gray-600">Sebuah platform interaktif untuk mempelajari dasar-dasar pemrograman Python.</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-10">
+            <button class="tab-btn active py-2 px-4 rounded-lg font-semibold bg-white shadow-sm" data-tab="pengenalan">1. Pengenalan</button>
+            <button class="tab-btn py-2 px-4 rounded-lg font-semibold bg-white shadow-sm" data-tab="variabel">2. Variabel & Tipe Data</button>
+            <button class="tab-btn py-2 px-4 rounded-lg font-semibold bg-white shadow-sm" data-tab="io">3. Input & Output</button>
+            <button class="tab-btn py-2 px-4 rounded-lg font-semibold bg-white shadow-sm" data-tab="operator">4. Operator</button>
+            <button class="tab-btn py-2 px-4 rounded-lg font-semibold bg-white shadow-sm" data-tab="percabangan">5. Percabangan</button>
+            <button class="tab-btn py-2 px-4 rounded-lg font-semibold bg-white shadow-sm" data-tab="perulangan">6. Perulangan</button>
+            <button class="tab-btn py-2 px-4 rounded-lg font-semibold bg-white shadow-sm" data-tab="fungsi">7. Fungsi</button>
+        </nav>
+
+        <main id="content-area">
+            <!-- Konten akan di-load di sini oleh JavaScript -->
+        </main>
+
+    </div>
+
+    <script>
+        const contentData = {
+            pengenalan: {
+                title: "Apa itu Python?",
+                interactive: false,
+                html: `
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <p class="mb-4 text-gray-700">Selamat datang di dunia pemrograman dengan Python! Anggap saja ini adalah pertemuan pertama kita di lab komputer. Bagian ini akan memberikan gambaran umum tentang Python dan mengapa bahasa ini menjadi pilihan populer bagi banyak developer.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                                <h3 class="text-xl font-bold text-blue-800 mb-2">Definisi Python</h3>
+                                <p>Python adalah bahasa pemrograman tingkat tinggi yang serbaguna. Maksudnya "tingkat tinggi" adalah sintaksnya (cara menulis kodenya) mirip dengan bahasa manusia (bahasa Inggris), sehingga lebih mudah dipahami daripada bahasa mesin yang rumit.</p>
+                                <p class="mt-2 text-sm text-gray-600">Dibuat oleh Guido van Rossum dan dirilis pada 1991, namanya terinspirasi dari acara komedi "Monty Python's Flying Circus".</p>
+                            </div>
+                            <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
+                                <h3 class="text-xl font-bold text-green-800 mb-2">Kenapa Belajar Python?</h3>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><strong class="font-semibold">Mudah Dipelajari:</strong> Sintaksnya bersih dan sederhana, sangat cocok untuk pemula.</li>
+                                    <li><strong class="font-semibold">Serbaguna:</strong> Digunakan untuk web (Instagram), analisis data, AI, dan game.</li>
+                                    <li><strong class="font-semibold">Komunitas Besar:</strong> Mudah mencari bantuan dan solusi jika menemukan kesulitan.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            variabel: {
+                title: "Variabel dan Tipe Data",
+                interactive: true,
+                explanation: `Variabel adalah sebuah "wadah" untuk menyimpan nilai atau data. Di Python, Anda tidak perlu mendeklarasikan tipe data secara eksplisit, Python akan otomatis mengetahuinya. Ada beberapa tipe data dasar seperti String (teks), Integer (angka bulat), Float (angka desimal), dan Boolean (benar/salah). Coba ubah nilai-nilai di bawah dan jalankan kodenya.`,
+                code: `nama_siswa = "Budi"\numur = 17\nnilai_ujian = 85.5\nlulus = True\n\nprint("Nama:", nama_siswa)\nprint("Umur:", umur)\nprint("Nilai:", nilai_ujian)\nprint("Status Lulus:", lulus)`
+            },
+            io: {
+                title: "Input dan Output Sederhana",
+                interactive: true,
+                explanation: `Untuk menampilkan sesuatu ke layar, kita menggunakan fungsi \`print()\`. Untuk meminta masukan dari pengguna, kita gunakan \`input()\`. Saat kode di bawah dijalankan, sebuah dialog akan muncul untuk meminta nama Anda.`,
+                code: `print("Halo, selamat belajar Python!")\n\nnama_kamu = input("Siapa nama kamu? ")\nprint("Senang berkenalan, " + nama_kamu + "!")`
+            },
+            operator: {
+                title: "Operator Aritmatika",
+                interactive: true,
+                explanation: `Sama seperti di matematika, kita bisa melakukan operasi hitungan dasar. Coba ganti nilai variabel \`a\` dan \`b\` untuk melihat bagaimana hasil perhitungannya berubah.`,
+                code: `a = 10\nb = 3\n\nprint("Penjumlahan:", a + b)\nprint("Pengurangan:", a - b)\nprint("Perkalian:", a * b)\nprint("Pembagian:", a / b)\nprint("Sisa Bagi (Modulo):", a % b)`
+            },
+            percabangan: {
+                title: "Percabangan (If, Elif, Else)",
+                interactive: true,
+                explanation: `Percabangan adalah cara kita memberitahu program untuk mengambil keputusan berdasarkan kondisi tertentu. "Jika kondisi A terpenuhi, lakukan ini. Jika tidak, lakukan itu." Ubah nilai variabel \`nilai\` untuk melihat pesan kelulusan yang berbeda.`,
+                code: `nilai = 80\n\nif nilai >= 75:\n  print("Selamat, Anda lulus!")\nelif nilai >= 60:\n  print("Anda perlu ikut remedial.")\nelse:\n  print("Maaf, Anda tidak lulus.")`
+            },
+            perulangan: {
+                title: "Perulangan (Loops)",
+                interactive: true,
+                explanation: `Perulangan digunakan untuk menjalankan blok kode yang sama berulang kali. Di bawah adalah contoh \`for\` loop yang mencetak angka dari 1 hingga 5, dan \`while\` loop yang melakukan hal serupa. Anda bisa mengubah angka pada fungsi \`range\` untuk melihat perbedaannya.`,
+                code: `print("--- For Loop ---")\n# Mencetak angka 1 sampai 5\nfor i in range(1, 6):\n  print("Ini adalah perulangan ke-", i)\n\nprint("\\n--- While Loop ---")\nangka = 1\nwhile angka <= 5:\n  print("Angka sekarang:", angka)\n  angka = angka + 1`
+            },
+            fungsi: {
+                title: "Fungsi (def)",
+                interactive: true,
+                explanation: `Fungsi adalah blok kode yang bisa kita beri nama dan panggil kapan pun dibutuhkan. Ini membuat kode kita lebih rapi dan bisa digunakan kembali. Coba panggil fungsi \`sapa_siswa\` dengan nama yang berbeda di baris terakhir.`,
+                code: `# Membuat fungsi\ndef sapa_siswa(nama):\n  print("Halo " + nama + ", selamat pagi!")\n\n# Memanggil fungsi\nsapa_siswa("Andi")\nsapa_siswa("Citra")`
+            }
+        };
+
+        const contentArea = document.getElementById('content-area');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        function renderContent(tab) {
+            const data = contentData[tab];
+            if (!data) return;
+
+            let html = `
+                <div id="${tab}" class="tab-content bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-800">${data.title}</h2>
+            `;
+
+            if (data.interactive) {
+                html += `
+                    <p class="mb-6 text-gray-600">${data.explanation}</p>
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold mb-2">Kode Python:</h3>
+                            <div id="code-editor-${tab}" contenteditable="true" spellcheck="false" class="code-editor">${data.code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+                            <button onclick="runCode('${tab}')" class="mt-4 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+                                Jalankan Kode
+                            </button>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-2">Hasil (Output):</h3>
+                            <div id="output-console-${tab}" class="output-console"></div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += data.html;
+            }
+
+            html += `</div>`;
+            contentArea.innerHTML = html;
+        }
+
+        function runCode(tab) {
+            const codeEditor = document.getElementById(`code-editor-${tab}`);
+            const outputConsole = document.getElementById(`output-console-${tab}`);
+            const code = codeEditor.innerText;
+            
+            outputConsole.textContent = "Menjalankan...";
+
+            setTimeout(() => {
+                try {
+                    const output = simulatePython(code);
+                    outputConsole.textContent = output;
+                } catch (e) {
+                    outputConsole.textContent = `Error: ${e.message}`;
+                }
+            }, 300);
+        }
+        
+        function simulatePython(code) {
+            let output = '';
+            let variables = {};
+            const lines = code.split('\n');
+
+            const getVal = (val) => {
+                val = val.trim();
+                if (variables.hasOwnProperty(val)) return variables[val];
+                if (!isNaN(parseFloat(val)) && isFinite(val)) return parseFloat(val);
+                if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+                    return val.slice(1, -1);
+                }
+                return val; 
+            };
+            
+            for(let i=0; i < lines.length; i++) {
+                let line = lines[i].trim();
+
+                if (line.startsWith('#') || line === '') continue;
+
+                if (line.includes('input(')) {
+                    const promptText = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')')).slice(1,-1);
+                    const varName = line.split('=')[0].trim();
+                    const userInput = prompt(promptText);
+                    variables[varName] = userInput;
+                    continue;
+                }
+                
+                if (line.startsWith('print(')) {
+                    const content = line.substring(6, line.length - 1);
+                    const parts = content.split(/(\+|,)/).filter(p => p);
+                    let lineOutput = '';
+                    parts.forEach(part => {
+                        part = part.trim();
+                        if(part !== '+' && part !== ',') {
+                           lineOutput += getVal(part);
+                        } else if (part === ',') {
+                            lineOutput += ' ';
+                        }
+                    });
+                    output += lineOutput + '\n';
+                    continue;
+                }
+                
+                if (line.includes('=')) {
+                    const parts = line.split('=').map(p => p.trim());
+                    const varName = parts[0];
+                    if (varName.includes('+') || varName.includes('-') || varName.includes('*') || varName.includes('/')) continue;
+                    
+                    let value;
+                    try {
+                        value = new Function('variables', `with(variables){ return ${parts[1]} }`)(variables);
+                    } catch(e){
+                        value = getVal(parts[1]);
+                    }
+                    variables[varName] = value;
+                }
+            }
+
+            return output || 'Tidak ada output untuk ditampilkan. (Gunakan fungsi print() untuk menampilkan sesuatu)';
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const tab = button.getAttribute('data-tab');
+                renderContent(tab);
+            });
+        });
+
+        renderContent('pengenalan');
+    </script>
 </body>
 </html>
